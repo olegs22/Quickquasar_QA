@@ -11,15 +11,11 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--outdir',type=str,help='output directory of the quickquasar run')
 parser.add_argument('--idir',type=str,help='directory from where to fetch the input data')
 parser.add_argument('--catalog',type=str,default=None)
-
-
 args = parser.parse_args()
 
 ## Check if BAL and DLA catalogs already exist
 bal_catfile=args.outdir+'/BAL_cat.fits'
 dla_catfile=args.outdir+'/DLA_cat.fits'
-
-
     
 if (os.path.isfile(bal_catfile)) or (os.path.isfile(dla_catfile)):
     print("catalogs already exist")
@@ -39,8 +35,8 @@ for dirs in parent_dirs:
         #table = fitsio.FITS(sub_dirs[i]+'/truth-16-'+index+'.fits')
         if args.catalog == None:
             #tags = ['DLA_META', 'BAL_META']
-            DLA_table = fitsio.read(sub_dirs[i]+'/truth-16-'+index+'.fits',ext='BAL_META')       
-            BAL_table = fitsio.read(sub_dirs[i]+'/truth-16-'+index+'.fits',ext='DLA_META')
+            DLA_table = fitsio.read(sub_dirs[i]+'/truth-16-'+index+'.fits',ext='DLA_META')       
+            BAL_table = fitsio.read(sub_dirs[i]+'/truth-16-'+index+'.fits',ext='BAL_META')
 
             DLA.append(DLA_table)
             BAL.append(BAL_table)
@@ -56,8 +52,8 @@ for dirs in parent_dirs:
             BAL = None
 
 if BAL is not None:
-    template_meta=fitsio.read('/global/cfs/cdirs/desi/spectro/templates/basis_templates/v3.2/bal_templates_v3.0.fits',columns=['BI_CIV','ERR_BI_CIV'])
-    BAL = Table(np.hstack(BAL))
+    template_meta=fitsio.read('/global/cfs/cdirs/desi/spectro/templates/basis_templates/v3.2/bal_templates_v3.0.fits',columns=['VMIN_CIV_450','VMAX_CIV_450','BI_CIV'])
+    BAL =Table(np.hstack(BAL))
     index=BAL['TEMPLATEID']
     template_meta=Table(template_meta[index])
     BAL=hstack([BAL,template_meta])
@@ -66,4 +62,4 @@ if BAL is not None:
     
 if DLA is not None:
     DLA = np.hstack(DLA)
-    fitsio.write(dla_cat,DLA)
+    fitsio.write(dla_catfile,DLA)
