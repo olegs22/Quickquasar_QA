@@ -10,7 +10,7 @@ import astropy.io.fits as pyfits
 parser = argparse.ArgumentParser()
 parser.add_argument('--outdir',type=str,help='output directory of the quickquasar run')
 parser.add_argument('--idir',type=str,help='directory from where to fetch the input data')
-parser.add_argument('--catalog',type=str,default=None)
+parser.add_argument('--catalog',type=str,default=None,help='can be BAL or DLA, if none will try to generate both.')
 args = parser.parse_args()
 
 ## Check if BAL and DLA catalogs already exist
@@ -42,12 +42,12 @@ for dirs in parent_dirs:
             BAL.append(BAL_table)
 
         elif args.catalog == 'BAL':
-            BAL_table = fitsio.read(sub_dirs[i]+'/truth-16-'+index+'.fits',ext=4)
+            BAL_table = fitsio.read(sub_dirs[i]+'/truth-16-'+index+'.fits',ext='BAL_META')
             BAL.append(BAL_table)
             DLA = None
 
         elif args.catalog == 'DLA':
-            DLA_table = fitsio.read(sub_dirs[i]+'/truth-16-'+index+'.fits',ext=3)
+            DLA_table = fitsio.read(sub_dirs[i]+'/truth-16-'+index+'.fits',ext='BAL_META')
             DLA.append(DLA_table)
             BAL = None
 
