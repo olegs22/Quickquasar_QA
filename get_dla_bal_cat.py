@@ -39,8 +39,8 @@ for dirs in parent_dirs:
         #table = fitsio.FITS(sub_dirs[i]+'/truth-16-'+index+'.fits')
         if args.catalog == None:
             #tags = ['DLA_META', 'BAL_META']
-            DLA_table = fitsio.read(sub_dirs[i]+'/truth-16-'+index+'.fits',ext=3)       
-            BAL_table = fitsio.read(sub_dirs[i]+'/truth-16-'+index+'.fits',ext=4)
+            DLA_table = fitsio.read(sub_dirs[i]+'/truth-16-'+index+'.fits',ext='BAL_META')       
+            BAL_table = fitsio.read(sub_dirs[i]+'/truth-16-'+index+'.fits',ext='DLA_META')
 
             DLA.append(DLA_table)
             BAL.append(BAL_table)
