@@ -1,0 +1,8 @@
+zbest
+bbflux
+desi-footprint
+zmin 1.8
+metals-from-file all
+dla file
+balprob 0.16
+downsampling 0.4
